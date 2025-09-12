@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Cápsula del Tiempo</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      background: #dbe2ef;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #3f72af;
+    }
+
+    section {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+
+    button {
+      background: #3f72af;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background: #112d4e;
+    }
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    #areaImg {
+      position: relative;
+      height: 250px;
+      background: #eef;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .imgBox {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .imgBox img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    /* Media queries para adaptabilidad */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      header {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      section {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      #areaImg {
+        height: 200px;
+      }
+
+      .imgBox {
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      #areaImg {
+        height: 150px;
+      }
+
+      .imgBox {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mi Cápsula del Tiempo</h1>
+    <p>Tiempo desde la creación: <span id="contador">—</span></p>
+  </header>
+
+  <section>
+    <h2>Sobre mí</h2>
+    <p>Me gusta dibujar y aprender nuevas cosas como música y deportes.</p>
+    <h3>Nombre</h3>
+    <p>Jose Yair Vieyra Reyes</p>
+    <h3>Fecha</h3>
+    <p>13 de diciembre, 2025</p>
+  </section>
+
+  <section>
+    <h2>Mis Metas</h2>
+    <ul>
+      <li>Acabar la prepa</li>
+      <li>Entrar a la uni UVM</li>
+      <li>Viajar a Perú</li>
+      <li>Jugar mejor básquet</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Momentos importantes</h2>
+    <p><b>Fecha:</b> 12 feb 2021</p>
+    <p><b>Descripción:</b> Fui a un concierto de mi artista favorito</p>
+  </section>
+
+  <section>
+    <h2>Música, series y tendencias</h2>
+    <p><b>Música:</b></p>
+    <ul><li>Nunca estoy</li><li>Run your mouth</li><li>309</li><li>Sur</li></ul>
+    <p><b>Artistas:</b></p>
+    <ul><li>nsqk</li><li>Bad Bunny</li><li>The Marías</li></ul>
+    <p><b>Series:</b></p>
+    <ul><li>The Boys</li><li>Invencible</li><li>Moon Knight</li></ul>
+  </section>
+
+  <section>
+    <h2>Carta a mi yo del futuro</h2>
+    <textarea id="carta" rows="6" placeholder="Escribe tu mensaje..."></textarea><br><br>
+    <button onclick="guardarCarta()">Guardar Carta</button>
+    <p><b>Última vez guardada:</b> <span id="fechaCarta">—</span></p>
+  </section>
+
+  <section>
+    <h2>Mi Imagen</h2>
+    <input type="file" id="subirImagen" accept="image/*">
+    <div id="areaImg"></div>
+  </section>
+
+  <footer><p style="text-align:center">Creado por yir - 2025</p></footer>  <script>
+    if(!localStorage.getItem("creacion")) localStorage.setItem("creacion",new Date());
+    function actualizarTiempo(){
+      let inicio=new Date(localStorage.getItem("creacion"));
+      let diff=Date.now()-inicio;
+      let d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24, m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
+      document.getElementById("contador").textContent=${d}d ${h}h ${m}m ${s}s;
+    }
+    setInterval(actualizarTiempo,1000); actualizarTiempo();
+
+    const carta=document.getElementById("carta"), fechaCarta=document.getElementById("fechaCarta");
+    carta.value=localStorage.getItem("carta")||"";
+    if(localStorage.getItem("fechaCarta")) fechaCarta.textContent=localStorage.getItem("fechaCarta");
+    function guardarCarta(){
+      localStorage.setItem("carta",carta.value);
+      let ahora=new Date().toLocaleString();
+      localStorage.setItem("fechaCarta",ahora);
+      fechaCarta.textContent=ahora;
+      alert("¡Carta guardada!");
+    }
+
+    const subir=document.getElementById("subirImagen"), area=document.getElementById("areaImg");
+    let imgs=JSON.parse(localStorage.getItem("imgs")||"[]"), sprites=[];
+    function mostrar(){
+      area.innerHTML=""; sprites=[];
+      imgs.forEach(data=>{
+        let div=document.createElement("div"); div.className="imgBox";
+        let img=document.createElement("img"); img.src=data; div.appendChild(img);
+        area.appendChild(div);
+        sprites.push({el:div,x:Math.random()*150,y:Math.random()*150,vx:Math.random()*2-1,vy:Math.random()*2-1});
+      });
+    }
+    subir.onchange=e=>{
+      let f=e.target.files[0]; if(!f) return;
+      let r=new FileReader();
+      r.onload=()=>{ imgs.push(r.result); localStorage.setItem("imgs",JSON.stringify(imgs)); mostrar(); };
+      r.readAsDataURL(f);
+    }
+    function mover(){
+      sprites.forEach(s=>{
+        s.x+=s.vx; s.y+=s.vy;
+        if(s.x<0||s.x>area.clientWidth-90) s.vx*=-1;
+        if(s.y<0||s.y>area.clientHeight-90) s.vy*=-1;
+        s.el.style.left=s.x+"px"; s.el.style.top=s.y+"px";
+      });
+      requestAnimationFrame(mover);
+    }
+    mostrar(); mover();
+  </script>
+</body>
+</html>
