@@ -188,13 +188,15 @@
     <div id="areaImg"></div>
   </section>
 
-  <footer><p style="text-align:center">Creado por yir - 2025</p></footer>  <script>
+  <footer><p style="text-align:center">Creado por yir - 2025</p></footer>
+
+  <script>
     if(!localStorage.getItem("creacion")) localStorage.setItem("creacion",new Date());
     function actualizarTiempo(){
       let inicio=new Date(localStorage.getItem("creacion"));
       let diff=Date.now()-inicio;
       let d=Math.floor(diff/86400000), h=Math.floor(diff/3600000)%24, m=Math.floor(diff/60000)%60, s=Math.floor(diff/1000)%60;
-      document.getElementById("contador").textContent=${d}d ${h}h ${m}m ${s}s;
+      document.getElementById("contador").textContent = `${d}d ${h}h ${m}m ${s}s`;
     }
     setInterval(actualizarTiempo,1000); actualizarTiempo();
 
